@@ -99,6 +99,9 @@ dwv.gui.DicomTags = dwv.gui.base.DicomTags;
 // DrawList table
 dwv.gui.DrawList = dwv.gui.base.DrawList;
 
+//reports table
+dwv.gui.Report = dwv.gui.base.Report;
+
 // Loaders
 dwv.gui.Loadbox = dwv.gui.base.Loadbox;
 // File loader
@@ -147,6 +150,15 @@ dwv.gui.Toolbox = function (app)
         tags.appendChild(tagsSpan);
         tags.title = dwv.i18n("basics.dicomTags");
         tags.onclick = function() { toggle(".tags"); };
+
+        //report
+        var reportSpan = document.createElement("span");
+        reportSpan.className = "ui-icon ui-icon-document";
+        var reports = document.createElement("button");
+        reports.appendChild(reportSpan);
+        reports.title = dwv.i18n("basics.reports");
+        reports.onclick = function() { toggle(".report"); };
+
         // draw list
         var drawListSpan = document.createElement("span");
         drawListSpan.className = "ui-icon ui-icon-pencil";
@@ -169,12 +181,12 @@ dwv.gui.Toolbox = function (app)
         info.title = dwv.i18n("basics.info");
         info.onclick = app.onToggleInfoLayer;
         // help
-        var reportSpan = document.createElement("span");
-        reportSpan.className = "ui-icon ui-icon-help";
-        var report = document.createElement("button");
-        report.appendChild(reportSpan);
-        report.title = dwv.i18n("basics.help");
-        report.onclick = function() { toggle(".report"); };
+        var helpSpan = document.createElement("span");
+        helpSpan.className = "ui-icon ui-icon-help";
+        var help = document.createElement("button");
+        help.appendChild(helpSpan);
+        help.title = dwv.i18n("basics.help");
+        help.onclick = function() { toggle(".help"); };
 
         var node = app.getElement("toolbar");
         node.appendChild(open);
@@ -184,7 +196,8 @@ dwv.gui.Toolbox = function (app)
         node.appendChild(drawList);
         node.appendChild(image);
         node.appendChild(info);
-        node.appendChild(report);
+        node.appendChild(help);
+        node.appendChild(reports);
 
         // apply button style
         $("button").button();
@@ -236,7 +249,7 @@ dwv.gui.Sobel = dwv.gui.base.Sobel;
 // Undo/redo
 dwv.gui.Undo = dwv.gui.base.Undo;
 // Help
-// dwv.gui.appendHelpHtml = dwv.gui.base.appendHelpHtml;
+dwv.gui.appendHelpHtml = dwv.gui.base.appendHelpHtml;
 // Version
 dwv.gui.appendVersionHtml = dwv.gui.base.appendVersionHtml;
 
@@ -269,6 +282,12 @@ dwv.gui.setup = function () {
         autoOpen: false, width: 500, height: 590,
         appendTo: "#dwv"
     });
+    $(".help").dialog({ position:
+        {my: "right top", at: "right top", of: "#pageMain"},
+        autoOpen: false, width: 500, height: 590,
+        appendTo: "#dwv"
+    });
+
     $(".report").dialog({ position:
         {my: "right top", at: "right top", of: "#pageMain"},
         autoOpen: false, width: 500, height: 590,
@@ -288,3 +307,5 @@ dwv.gui.setup = function () {
     // TODO it seems to add a border that bothers getting the cursor position...
     //$("#layerContainer").resizable({ aspectRatio: true });
 };
+
+

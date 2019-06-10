@@ -12,20 +12,20 @@ function startApp() {
     // initialise the application
     var options = {
         "containerDivId": "dwv",
-        "gui": ["tool", "load", "undo", "version", "tags", "drawList"],
+        "gui": ["tool", "load", "help", "undo", "version", "tags", "drawList","report"],
         "loaders": ["File", "Url"],
         "tools": ["Scroll", "WindowLevel", "ZoomAndPan", "Draw", "Livewire", "Filter", "Floodfill"],
         "filters": ["Threshold", "Sharpen", "Sobel"],
         "shapes": ["Arrow", "Ruler", "Protractor", "Rectangle", "Roi", "Ellipse", "FreeHand"],
         "isMobile": false,
-        // "helpResourcesPath": "resources/help"
+        "helpResourcesPath": "resources/help"
     };
     if ( dwv.browser.hasInputDirectory() ) {
         options.loaders.splice(1, 0, "Folder");
     }
     myapp.init(options);
 
-
+    
     // help
     // TODO Seems accordion only works when at end...
     $("#accordion").accordion({ collapsible: "true", active: "false", heightStyle: "content" });
