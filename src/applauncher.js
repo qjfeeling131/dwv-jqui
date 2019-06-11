@@ -1,14 +1,14 @@
 /**
  * Application launcher.
  */
-
+var dwvApp;
 // start app function
 function startApp() {
     // gui setup
     dwv.gui.setup();
 
     // main application
-    var myapp = new dwv.App();
+    dwvApp = new dwv.App();
     // initialise the application
     var options = {
         "containerDivId": "dwv",
@@ -23,9 +23,7 @@ function startApp() {
     if ( dwv.browser.hasInputDirectory() ) {
         options.loaders.splice(1, 0, "Folder");
     }
-    myapp.init(options);
-
-    
+    dwvApp.init(options);
     // help
     // TODO Seems accordion only works when at end...
     $("#accordion").accordion({ collapsible: "true", active: "false", heightStyle: "content" });

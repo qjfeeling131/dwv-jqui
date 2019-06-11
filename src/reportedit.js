@@ -102,11 +102,18 @@ let Inline = Quill.import('blots/inline');
 
   $('#image-button').click(function () {
     let range = quill.getSelection(true);
+    let canvas = document.getElementsByClassName("imageLayer");
+    let dataUrl= canvas[0].toDataURL("image/png")
     console.log(dwv);
     quill.insertText(range.index, '\n', Quill.sources.USER);
     quill.insertEmbed(range.index + 1, 'image', {
-      alt: 'Quill Cloud',
-      url: 'https://quilljs.com/0.20/assets/images/cloud.png'
+      alt: 'test',
+      url: dataUrl
     }, Quill.sources.USER);
     quill.setSelection(range.index + 2, Quill.sources.SILENT);
   });
+
+  $("#save-button").click(function(){
+    let delta=  quill.getContents();
+    console.log(delta);
+  })
