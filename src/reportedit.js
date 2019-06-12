@@ -1,119 +1,129 @@
 let Inline = Quill.import('blots/inline');
-  let Block = Quill.import('blots/block');
-  let BlockEmbed = Quill.import('blots/block/embed');
+let Block = Quill.import('blots/block');
+let BlockEmbed = Quill.import('blots/block/embed');
 
-  class BoldBlot extends Inline { }
-  BoldBlot.blotName = 'bold';
-  BoldBlot.tagName = 'strong';
+class BoldBlot extends Inline { }
+BoldBlot.blotName = 'bold';
+BoldBlot.tagName = 'strong';
 
-  class ItalicBlot extends Inline { }
-  ItalicBlot.blotName = 'italic';
-  ItalicBlot.tagName = 'em';
+class ItalicBlot extends Inline { }
+ItalicBlot.blotName = 'italic';
+ItalicBlot.tagName = 'em';
 
-  class LinkBlot extends Inline {
-    static create(url) {
-      let node = super.create();
-      node.setAttribute('href', url);
-      node.setAttribute('target', '_blank');
-      return node;
-    }
-
-    static formats(node) {
-      return node.getAttribute('href');
-    }
+class LinkBlot extends Inline {
+  static create(url) {
+    let node = super.create();
+    node.setAttribute('href', url);
+    node.setAttribute('target', '_blank');
+    return node;
   }
-  LinkBlot.blotName = 'link';
-  LinkBlot.tagName = 'a';
 
-  class BlockquoteBlot extends Block { }
-  BlockquoteBlot.blotName = 'blockquote';
-  BlockquoteBlot.tagName = 'blockquote';
-
-  class HeaderBlot extends Block {
-    static formats(node) {
-      return HeaderBlot.tagName.indexOf(node.tagName) + 1;
-    }
+  static formats(node) {
+    return node.getAttribute('href');
   }
-  HeaderBlot.blotName = 'header';
-  HeaderBlot.tagName = ['H1', 'H2'];
+}
+LinkBlot.blotName = 'link';
+LinkBlot.tagName = 'a';
 
-  class DividerBlot extends BlockEmbed { }
-  DividerBlot.blotName = 'divider';
-  DividerBlot.tagName = 'hr';
+class BlockquoteBlot extends Block { }
+BlockquoteBlot.blotName = 'blockquote';
+BlockquoteBlot.tagName = 'blockquote';
 
-  class ImageBlot extends BlockEmbed {
-    static create(value) {
-      let node = super.create();
-      node.setAttribute('alt', value.alt);
-      node.setAttribute('src', value.url);
-      return node;
-    }
-
-    static value(node) {
-      return {
-        alt: node.getAttribute('alt'),
-        url: node.getAttribute('src')
-      };
-    }
+class HeaderBlot extends Block {
+  static formats(node) {
+    return HeaderBlot.tagName.indexOf(node.tagName) + 1;
   }
-  ImageBlot.blotName = 'image';
-  ImageBlot.tagName = 'img';
+}
+HeaderBlot.blotName = 'header';
+HeaderBlot.tagName = ['H1', 'H2'];
 
-  Quill.register(BoldBlot);
-  Quill.register(ItalicBlot);
-  Quill.register(LinkBlot);
-  Quill.register(BlockquoteBlot);
-  Quill.register(HeaderBlot);
-  Quill.register(DividerBlot);
-  Quill.register(ImageBlot);
+class DividerBlot extends BlockEmbed { }
+DividerBlot.blotName = 'divider';
+DividerBlot.tagName = 'hr';
 
-  let quill = new Quill('#editor-container');
+class ImageBlot extends BlockEmbed {
+  static create(value) {
+    let node = super.create();
+    node.setAttribute('alt', value.alt);
+    node.setAttribute('src', value.url);
+    return node;
+  }
 
-  $('#bold-button').click(function () {
-    quill.format('bold', true);
-  });
-  $('#italic-button').click(function () {
-    quill.format('italic', true);
-  });
+  static value(node) {
+    return {
+      alt: node.getAttribute('alt'),
+      url: node.getAttribute('src')
+    };
+  }
+}
+ImageBlot.blotName = 'image';
+ImageBlot.tagName = 'img';
 
-  $('#link-button').click(function () {
-    let value = prompt('Enter link URL');
-    quill.format('link', value);
-  });
+Quill.register(BoldBlot);
+Quill.register(ItalicBlot);
+Quill.register(LinkBlot);
+Quill.register(BlockquoteBlot);
+Quill.register(HeaderBlot);
+Quill.register(DividerBlot);
+Quill.register(ImageBlot);
 
-  $('#blockquote-button').click(function () {
-    quill.format('blockquote', true);
-  });
+let quill = new Quill('#editor-container');
 
-  $('#header-1-button').click(function () {
-    quill.format('header', 1);
-  });
+$('#bold-button').click(function () {
+  quill.format('bold', true);
+});
+$('#italic-button').click(function () {
+  quill.format('italic', true);
+});
 
-  $('#header-2-button').click(function () {
-    quill.format('header', 2);
-  });
+$('#link-button').click(function () {
+  let value = prompt('Enter link URL');
+  quill.format('link', value);
+});
 
-  $('#divider-button').click(function () {
-    let range = quill.getSelection(true);
-    quill.insertText(range.index, '\n', Quill.sources.USER);
-    quill.insertEmbed(range.index + 1, 'divider', true, Quill.sources.USER);
-    quill.setSelection(range.index + 2, Quill.sources.SILENT);
-  });
+$('#blockquote-button').click(function () {
+  quill.format('blockquote', true);
+});
 
-  $('#image-button').click(function () {
-    let range = quill.getSelection(true);
-    let canvas = document.getElementsByClassName("imageLayer");
-    let dataUrl= canvas[0].toDataURL("image/png")
-    console.log(dwv);
-    quill.insertText(range.index, '\n', Quill.sources.USER);
-    quill.insertEmbed(range.index + 1, 'image', {
-      alt: 'test',
-      url: dataUrl
-    }, Quill.sources.USER);
-    quill.setSelection(range.index + 2, Quill.sources.SILENT);
-  });
+$('#header-1-button').click(function () {
+  quill.format('header', 1);
+});
 
-  $("#save-button").click(function(){
-    let delta=  quill.getContents();
-    console.log(delta);
-  })
+$('#header-2-button').click(function () {
+  quill.format('header', 2);
+});
+
+$('#divider-button').click(function () {
+  let range = quill.getSelection(true);
+  quill.insertText(range.index, '\n', Quill.sources.USER);
+  quill.insertEmbed(range.index + 1, 'divider', true, Quill.sources.USER);
+  quill.setSelection(range.index + 2, Quill.sources.SILENT);
+});
+
+$('#image-button').click(function () {
+  let range = quill.getSelection(true);
+  let canvas = document.getElementsByClassName("imageLayer");
+  let dataUrl = canvas[0].toDataURL("image/png")
+  console.log(dwv);
+  quill.insertText(range.index, '\n', Quill.sources.USER);
+  quill.insertEmbed(range.index + 1, 'image', {
+    alt: 'test',
+    url: dataUrl
+  }, Quill.sources.USER);
+  quill.setSelection(range.index + 2, Quill.sources.SILENT);
+});
+
+$("#save-button").click(function () {
+  let delta = quill.getContents();
+  var jEditor = $('#editor-container').find('.ql-editor')
+  var html = jEditor.html();
+  var finalHtml = '<html><head><meta charset="UTF-8"></head><body>';
+  finalHtml += html;
+  finalHtml += '</body></html>';
+  var converted = htmlDocx.asBlob(finalHtml);
+  var docName = 'document.docx';
+  saveAs(converted, docName);
+  var link = document.createElement('a');
+  link.href = URL.createObjectURL(converted);
+  link.download = 'document.docx';
+})
